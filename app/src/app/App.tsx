@@ -4,8 +4,8 @@ import { Toaster } from 'sonner';
 import { AppHeader } from '@/widgets/layout/AppHeader';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { CrmPage } from '@/pages/CrmPage';
+import { ScriptsPage } from '@/pages/ScriptsPage';
 import {
-  ScriptsPlaceholder,
   SettingsPlaceholder,
   TrainerPlaceholder,
 } from '@/pages/PlaceholderPages';
@@ -42,7 +42,7 @@ export function App() {
           <Routes>
             <Route path="/" element={<DashboardPage />} />
             <Route path="/crm" element={<CrmPage />} />
-            <Route path="/scripts" element={<ScriptsPlaceholder />} />
+            <Route path="/scripts" element={<ScriptsPage />} />
             <Route path="/trainer" element={<TrainerPlaceholder />} />
             <Route path="/settings" element={<SettingsPlaceholder />} />
             <Route path="*" element={<Navigate to="/" replace />} />

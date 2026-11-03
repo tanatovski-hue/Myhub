@@ -23,6 +23,5 @@ export function PlaceholderPage({ title, kicker }: { title: string; kicker: stri
   );
 }
 
-export const ScriptsPlaceholder = (): ReactNode => <PlaceholderPage title="Боевые скрипты 2026" kicker="Модуль 03 · Библиотека касаний" />;
 export const TrainerPlaceholder = (): ReactNode => <PlaceholderPage title="Тренажёр возражений" kicker="Модуль 04 · Спарринг с ЛПР" />;
 export const SettingsPlaceholder = (): ReactNode => <PlaceholderPage title="Настройки системы" kicker="Модуль 05 · Данные и экспорт" />;
