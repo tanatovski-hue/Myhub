@@ -11,8 +11,8 @@ import {
   copyStateJson,
   downloadBackupZip,
   downloadStateJson,
+  importBackupFromFile,
   importBackupFromText,
-  readFileAsText,
   serializeState,
 } from '@/features/backup/model';
 
@@ -67,10 +67,13 @@ export function DataManagementWidget() {
   const handleFile = async (file: File | undefined) => {
     if (!file) return;
     try {
-      const text = await readFileAsText(file);
-      applyImport(text, `из файла ${file.name}`);
+      // .json читается как текст, .zip распаковывается локально (fflate, без CDN)
+      const ok = await importBackupFromFile(file);
+      toast[ok ? 'success' : 'error'](
+        ok ? `Состояние восстановлено из файла ${file.name}` : 'Ошибка: не удалось разобрать файл (нужен JSON или ZIP с backup.json)',
+      );
     } catch {
-      toast.error('Ошибка чтения файла JSON');
+      toast.error('Ошибка чтения файла');
     } finally {
       if (fileRef.current) fileRef.current.value = '';
     }
@@ -152,7 +155,7 @@ export function DataManagementWidget() {
             <input
               ref={fileRef}
               type="file"
-              accept=".json,application/json"
+              accept=".json,.zip,application/json,application/zip"
               className="hidden"
               aria-label="Файл резервной копии JSON"
               onChange={(e) => void handleFile(e.target.files?.[0])}

@@ -1,5 +1,5 @@
 /** Фича «Резервное копирование»: экспорт/импорт JSON и ZIP-архив без зависимости от CDN (legacy-проблема №4) */
-import { zipSync, strToU8 } from 'fflate';
+import { zipSync, strToU8, unzipSync, strFromU8 } from 'fflate';
 import type { AppStateData } from '@/shared/types';
 import { useAppStore } from '@/shared/lib/store';
 
@@ -88,6 +88,28 @@ export function parseBackupJson(raw: string): Partial<AppStateData> | null {
   } catch {
     return null;
   }
+}
+
+/** Извлечение backup.json из ZIP-архива (на случай, если пользователь выбрал сам архив) */
+function extractJsonFromZip(bytes: Uint8Array): string | null {
+  try {
+    const files = unzipSync(bytes);
+    const entryName = Object.keys(files).find((n) => n.toLowerCase().endsWith('.json'));
+    if (!entryName) return null;
+    return strFromU8(files[entryName]);
+  } catch {
+    return null;
+  }
+}
+
+/** Импорт из файла: .json читается как текст, .zip распаковывается локально (fflate, без CDN) */
+export async function importBackupFromFile(file: File): Promise<boolean> {
+  if (/\.zip$/i.test(file.name) || file.type === 'application/zip') {
+    const buf = new Uint8Array(await file.arrayBuffer());
+    const json = extractJsonFromZip(buf);
+    return json ? importBackupFromText(json) : false;
+  }
+  return importBackupFromText(await readFileAsText(file));
 }
 
 /** Импорт: валидация через sanitizer стора + запись состояния */
