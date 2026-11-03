@@ -5,8 +5,8 @@ import { AppHeader } from '@/widgets/layout/AppHeader';
 import { DashboardPage } from '@/pages/DashboardPage';
 import { CrmPage } from '@/pages/CrmPage';
 import { ScriptsPage } from '@/pages/ScriptsPage';
-import { SettingsPlaceholder } from '@/pages/PlaceholderPages';
 import { TrainerPage } from '@/pages/TrainerPage';
+import { SettingsPage } from '@/pages/SettingsPage';
 import { useAppStore } from '@/shared/lib/store';
 import type { ScreenId } from '@/shared/types';
 
@@ -42,7 +42,7 @@ export function App() {
             <Route path="/crm" element={<CrmPage />} />
             <Route path="/scripts" element={<ScriptsPage />} />
             <Route path="/trainer" element={<TrainerPage />} />
-            <Route path="/settings" element={<SettingsPlaceholder />} />
+            <Route path="/settings" element={<SettingsPage />} />
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </main>

@@ -16,6 +16,7 @@ import {
 } from 'lucide-react';
 import { useAppStore } from '@/shared/lib/store';
 import { cn, formatNumber } from '@/shared/lib/utils';
+import { downloadBackupZip } from '@/features/backup/model';
 import { Dialog } from '@/shared/ui/Dialog';
 import { Button } from '@/shared/ui/Button';
 import { Input } from '@/shared/ui/Input';
@@ -209,7 +210,14 @@ export function AppHeader() {
 
           {/* Действия */}
           <div className="flex items-center gap-2">
-            <Button variant="secondary" size="sm" onClick={() => toast.info('ZIP-экспорт будет перенесён на экране Настроек (без CDN)')}>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => {
+                downloadBackupZip(useAppStore.getState());
+                toast.success('Архив HuntOS-B2B-backup.zip успешно скачан');
+              }}
+            >
               <Archive size={14} />
               <span className="hidden sm:inline">Скачать ZIP</span>
             </Button>

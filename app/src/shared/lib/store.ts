@@ -134,6 +134,8 @@ interface AppStore extends AppStateData {
   incrementDeal: () => void;
   setCompanyName: (name: string) => void;
   setCurrentScreen: (screen: AppStateData['currentScreen']) => void;
+  /** Импорт резервной копии: санитайзинг внешней JSON-строки и полная замена состояния */
+  importState: (raw: Partial<AppStateData>) => void;
   /** Скрипты */
   updateScript: (id: string, patch: Partial<Script>) => void;
   addScript: (script: Omit<Script, 'id'> & { id?: string }) => void;
@@ -202,6 +204,8 @@ export const useAppStore = create<AppStore>()(
       setCompanyName: (name) => set({ companyName: name }),
 
       setCurrentScreen: (screen) => set({ currentScreen: screen }),
+
+      importState: (raw) => set(sanitizeState(raw)),
 
       updateScript: (id, patch) =>
         set((s) => ({ scripts: s.scripts.map((sc) => (sc.id === id ? { ...sc, ...patch } : sc)) })),
