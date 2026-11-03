@@ -118,6 +118,9 @@ function migrateFromLegacy(): AppStateData | undefined {
 }
 
 interface AppStore extends AppStateData {
+  /** Выбранный клиент для редактора скриптов (кросс-экранная связь CRM → Скрипты) */
+  selectedScriptClientId: string | null;
+  setSelectedScriptClient: (id: string | null) => void;
   /** CRUD клиентов */
   addClient: (client: Omit<Client, 'id'> & { id?: string }) => void;
   updateClient: (id: string, patch: Partial<Client>) => void;
@@ -142,6 +145,8 @@ export const useAppStore = create<AppStore>()(
   persist(
     (set, get) => ({
       ...createDefaultState(),
+      selectedScriptClientId: null,
+      setSelectedScriptClient: (id) => set({ selectedScriptClientId: id }),
 
       addClient: (client) =>
         set((s) => ({

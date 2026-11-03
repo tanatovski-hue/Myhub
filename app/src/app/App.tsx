@@ -3,8 +3,8 @@ import { HashRouter, Navigate, Route, Routes, useLocation } from 'react-router-d
 import { Toaster } from 'sonner';
 import { AppHeader } from '@/widgets/layout/AppHeader';
 import { DashboardPage } from '@/pages/DashboardPage';
+import { CrmPage } from '@/pages/CrmPage';
 import {
-  CrmPlaceholder,
   ScriptsPlaceholder,
   SettingsPlaceholder,
   TrainerPlaceholder,
@@ -41,7 +41,7 @@ export function App() {
         <main className="mx-auto w-full max-w-[1400px] flex-1 px-4 py-5">
           <Routes>
             <Route path="/" element={<DashboardPage />} />
-            <Route path="/crm" element={<CrmPlaceholder />} />
+            <Route path="/crm" element={<CrmPage />} />
             <Route path="/scripts" element={<ScriptsPlaceholder />} />
             <Route path="/trainer" element={<TrainerPlaceholder />} />
             <Route path="/settings" element={<SettingsPlaceholder />} />
